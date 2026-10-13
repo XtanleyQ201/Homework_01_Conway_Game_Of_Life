@@ -54,22 +54,22 @@ public class MatrixOutlinePrinter implements MatrixPrinter {
         }
         //Appends the top borderline to the printMatrix
         printMatrix.append(CORNER);
-        for (int i = 0; i < matrix.getRows(); i++) {
+        for (int i = 0; i < matrix.getColumns(); i++) {
             printMatrix.append(HORIZONTAL);
         }
         printMatrix.append(CORNER).append("\n");
 
         //Appends each row of the matrix into the string alongside the outer VERITCAL characters
-        for (int i = 0; i < matrix.getColumns(); i++) {
+        for (int i = 0; i < matrix.getRows(); i++) {
             if (matrix.getData()[i] == null) {
                 throw new IllegalArgumentException("Row of matrix is null");
             }
             printMatrix.append(VERTICAL).append(printRow(matrix, i)).append(VERTICAL).append("\n");
         }
-        printMatrix.append(CORNER);
 
         //Appends the bottom borderline to the printMatrix
-        for (int i = 0; i < matrix.getRows(); i++) {
+        printMatrix.append(CORNER);
+        for (int i = 0; i < matrix.getColumns(); i++) {
             printMatrix.append(HORIZONTAL);
         }
         printMatrix.append(CORNER).append("\n");
@@ -94,8 +94,8 @@ public class MatrixOutlinePrinter implements MatrixPrinter {
         StringBuilder matrixRow = new StringBuilder();
 
         //For loop to append the data values of the matrix to matrixRow
-        for (int j = 1; j < matrix.getColumns() - 1; j++) {
-            matrixRow.append(matrix.getData()[row][j]);
+        for (int j = 0; j < matrix.getColumns(); j++) {
+            matrixRow.append(" ");
         }
 
         return matrixRow.toString();
