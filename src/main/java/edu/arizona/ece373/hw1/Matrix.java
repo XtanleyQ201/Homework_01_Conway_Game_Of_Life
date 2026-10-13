@@ -15,7 +15,7 @@ package edu.arizona.ece373.hw1;
 public class Matrix {
 
     // TODO: declare the private field `data` holding a two-dimensional array of int.
-
+    private int[][] data;
     /**
      * Creates a matrix of the given size whose cells are all zero.
      *
@@ -26,7 +26,11 @@ public class Matrix {
     public Matrix(int rows, int columns) {
         // TODO: check that rows >= 1 and columns >= 1 (IllegalArgumentException otherwise),
         // TODO: then allocate the array field with that many rows and columns.
-        throw new UnsupportedOperationException("TODO");
+        //throw new UnsupportedOperationException("TODO");
+        if (rows < 1 || columns < 1) {
+            throw new IllegalArgumentException("Row or Column input is less than 1");
+        }
+        this.data = new int[rows][columns];
     }
 
     /**
@@ -39,7 +43,17 @@ public class Matrix {
     public Matrix(int[][] data) {
         // TODO: validate the argument (not null, at least 1 row, at least 1 column,
         // TODO: every row the same length) and store it in the field.
-        throw new UnsupportedOperationException("TODO");
+        if (data == null) {
+            throw new IllegalArgumentException("Data is Null");
+        }
+        if (data.length < 1 || data[0].length < 1) {
+            throw new IllegalArgumentException("Data size is not at least 1x1 or more");
+        }
+        if (data[0].length != data[1].length) {
+            throw new IllegalArgumentException("Rows are different sizes");
+        }
+
+        this.data = data;
     }
 
     /**
@@ -49,7 +63,9 @@ public class Matrix {
      */
     public int[][] getData() {
         // TODO: return the cells. Think about whether you hand out the field itself or a copy.
-        throw new UnsupportedOperationException("TODO");
+
+        //Decided to return the field itself
+        return this.data;
     }
 
     /**
@@ -62,7 +78,20 @@ public class Matrix {
      */
     public void setData(int[][] data) {
         // TODO: validate exactly like the array constructor, then store.
-        throw new UnsupportedOperationException("TODO");
+
+        //Copied from the Matrix constructor method
+        if (data == null) {
+            throw new IllegalArgumentException("Data is Null");
+        }
+        if (data.length < 1 || data[0].length < 1) {
+            throw new IllegalArgumentException("Data size is not at least 1x1 or more");
+        }
+        if (data[0].length != data[1].length) {
+            throw new IllegalArgumentException("Rows are different sizes");
+        }
+
+        this.data = data;
+
     }
 
     /**
@@ -72,7 +101,7 @@ public class Matrix {
      */
     public int getRows() {
         // TODO: return the number of rows.
-        throw new UnsupportedOperationException("TODO");
+        return data[0].length;
     }
 
     /**
@@ -82,7 +111,7 @@ public class Matrix {
      */
     public int getColumns() {
         // TODO: return the number of columns.
-        throw new UnsupportedOperationException("TODO");
+        return data.length;
     }
 
     /**
@@ -95,7 +124,13 @@ public class Matrix {
      */
     public int get(int row, int column) {
         // TODO: bounds-check the coordinate and return the cell.
-        throw new UnsupportedOperationException("TODO");
+        if (row < 1 || row > this.getRows()) {
+            throw new IndexOutOfBoundsException("Row selected out of bounds");
+        }
+        else if (column < 1 || column > this.getColumns()) {
+            throw new IndexOutOfBoundsException("Column selected out of bounds");
+        }
+        return this.data[column][row];
     }
 
     /**
@@ -108,6 +143,12 @@ public class Matrix {
      */
     public void set(int row, int column, int value) {
         // TODO: bounds-check the coordinate and write the cell.
-        throw new UnsupportedOperationException("TODO");
+        if (row < 1 || row > this.getRows()) {
+            throw new IndexOutOfBoundsException("Row selected out of bounds");
+        }
+        else if (column < 1 || column > this.getColumns()) {
+            throw new IndexOutOfBoundsException("Column selected out of bounds");
+        }
+        this.data[column][row] = value;
     }
 }
