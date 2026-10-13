@@ -45,8 +45,38 @@ public class MatrixOutlinePrinter implements MatrixPrinter {
         // TODO:   a border line, one line per row, a border line, each ending in '\n'.
         // TODO: the inside of each line must come from printRow(matrix, row) so that
         // TODO: BoolMatrixPrinter can change it by overriding that one method.
-        throw new UnsupportedOperationException("TODO");
+        //Creation of StringBuilder printMatrix to make the matrix string and return it.
+        StringBuilder printMatrix = new StringBuilder();
+
+        //Checker if the matrix inputted for this function is null and throws an IllegalArgumentException if it does
+        if (matrix == null) {
+            throw new IllegalArgumentException("Input matrix is null");
+        }
+        //Appends the top borderline to the printMatrix
+        printMatrix.append(CORNER);
+        for (int i = 0; i < matrix.getRows(); i++) {
+            printMatrix.append(HORIZONTAL);
+        }
+        printMatrix.append(CORNER).append("\n");
+
+        //Appends each row of the matrix into the string alongside the outer VERITCAL characters
+        for (int i = 0; i < matrix.getColumns(); i++) {
+            if (matrix.getData()[i] == null) {
+                throw new IllegalArgumentException("Row of matrix is null");
+            }
+            printMatrix.append(VERTICAL).append(printRow(matrix, i)).append(VERTICAL).append("\n");
+        }
+        printMatrix.append(CORNER);
+
+        //Appends the bottom borderline to the printMatrix
+        for (int i = 0; i < matrix.getRows(); i++) {
+            printMatrix.append(HORIZONTAL);
+        }
+        printMatrix.append(CORNER).append("\n");
+
+        return printMatrix.toString();
     }
+
 
     /**
      * Renders the inside of one row, without the surrounding {@link #VERTICAL} characters.
@@ -60,6 +90,14 @@ public class MatrixOutlinePrinter implements MatrixPrinter {
      */
     protected String printRow(Matrix matrix, int row) {
         // TODO: return one blank character per column.
-        throw new UnsupportedOperationException("TODO");
+        //creates StringBuilder matrixRow to add it to stringMatrix;
+        StringBuilder matrixRow = new StringBuilder();
+
+        //For loop to append the data values of the matrix to matrixRow
+        for (int j = 1; j < matrix.getColumns() - 1; j++) {
+            matrixRow.append(matrix.getData()[row][j]);
+        }
+
+        return matrixRow.toString();
     }
 }
