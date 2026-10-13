@@ -30,7 +30,7 @@ public class Matrix {
         if (rows < 1 || columns < 1) {
             throw new IllegalArgumentException("Row or Column input is less than 1");
         }
-        this.data = new int[rows][columns];
+        data = new int[rows][columns];
     }
 
     /**
@@ -46,11 +46,14 @@ public class Matrix {
         if (data == null) {
             throw new IllegalArgumentException("Data is Null");
         }
-        if (data.length < 1 || data[0].length < 1) {
+        else if (data.length < 1 || data[0].length < 1) {
             throw new IllegalArgumentException("Data size is not at least 1x1 or more");
         }
-        if (data[0].length != data[1].length) {
-            throw new IllegalArgumentException("Rows are different sizes");
+
+        for (int i = 1; i < data.length; i++) {
+            if (data[i-1].length != data[i].length) {
+                throw new IllegalArgumentException("Rows are different sizes");
+            }
         }
 
         this.data = data;
@@ -101,7 +104,7 @@ public class Matrix {
      */
     public int getRows() {
         // TODO: return the number of rows.
-        return data[0].length;
+        return data.length;
     }
 
     /**
@@ -111,7 +114,7 @@ public class Matrix {
      */
     public int getColumns() {
         // TODO: return the number of columns.
-        return data.length;
+        return data[0].length;
     }
 
     /**
