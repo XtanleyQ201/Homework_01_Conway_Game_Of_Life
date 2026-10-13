@@ -16,6 +16,8 @@ public class Shape extends Matrix {
 
     // TODO: declare the private field `name`.
 
+    //Creation of string name for the Shape
+    private String name;
     /**
      * Creates a named shape from a pattern of zeroes and ones.
      *
@@ -27,7 +29,23 @@ public class Shape extends Matrix {
     public Shape(String name, int[][] data) {
         super(data);
         // TODO: check the name, check that every cell is 0 or 1, then store the name.
-        throw new UnsupportedOperationException("TODO");
+
+        //if condition checks if String name is a null value or a blank, then throws a illegalArgumentException for it
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Name is null or blank");
+        }
+
+        //For loop condition to check each element in the Shape/Matrix, if its not 0 or 1,
+        // then throw a illegalArgumentException
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if (data[i][j] != 0 && data[i][j] != 1) {
+                    throw new IllegalArgumentException("Data in matrix contains a value not 1 or 0");
+                }
+            }
+        }
+        this.name = name;
+
     }
 
     /**
@@ -36,8 +54,8 @@ public class Shape extends Matrix {
      * @return the shape name
      */
     public String getName() {
-        // TODO: return the name.
-        throw new UnsupportedOperationException("TODO");
+        // Returns the name.
+        return this.name;
     }
 
     /**
@@ -48,7 +66,8 @@ public class Shape extends Matrix {
      */
     public void setName(String name) {
         // TODO: check and store the name.
-        throw new UnsupportedOperationException("TODO");
+        //Sets the name of the shape type object with the input name
+        this.name = name;
     }
 
     /**
@@ -59,7 +78,7 @@ public class Shape extends Matrix {
     public static Shape beehive() {
         // TODO: return a Shape named "Beehive" holding
         // TODO:   0 1 1 0 / 1 0 0 1 / 0 1 1 0
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Beehive", new int[][] {{0,1,1,0},{1,0,0,1},{0,1,1,0}});
     }
 
     /**
@@ -70,7 +89,7 @@ public class Shape extends Matrix {
     public static Shape boat() {
         // TODO: return a Shape named "Boat" holding
         // TODO:   1 1 0 / 1 0 1 / 0 1 0
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Boat", new int[][] {{1,1,0},{1,0,1},{0,1,0}});
     }
 
     /**
@@ -80,7 +99,7 @@ public class Shape extends Matrix {
      */
     public static Shape blinker() {
         // TODO: return a Shape named "Blinker" holding a single row 1 1 1.
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Blinker", new int[][] {{1,1,1}});
     }
 
     /**
@@ -92,7 +111,7 @@ public class Shape extends Matrix {
     public static Shape glider() {
         // TODO: return a Shape named "Glider" holding
         // TODO:   0 1 0 / 0 0 1 / 1 1 1
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Glider", new int[][] {{0,1,0},{0,0,1},{1,1,1}});
     }
 
     /**
@@ -103,7 +122,7 @@ public class Shape extends Matrix {
     public static Shape block() {
         // TODO: return a Shape named "Block" holding
         // TODO:   1 1 / 1 1
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Block", new int[][] {{1,1},{1,1}});
     }
 
     /**
@@ -114,7 +133,7 @@ public class Shape extends Matrix {
     public static Shape toad() {
         // TODO: return a Shape named "Toad" holding
         // TODO:   0 1 1 1 / 1 1 1 0
-        throw new UnsupportedOperationException("TODO");
+        return new Shape("Block", new int[][] {{0,1,1,1},{1,1,1,0}});
     }
 
     /**
@@ -125,6 +144,14 @@ public class Shape extends Matrix {
      */
     public static void main(String[] args) {
         // TODO: create a Beehive and a Boat and print them through a MatrixPrinter variable.
-        throw new UnsupportedOperationException("TODO");
+        Shape beeHiveShape = beehive();
+        Shape boatShape = boat();
+
+        // Instantiates BoolMatrixPrinter() then uses the print function with the Shape as the parameters for it.
+        String printBeeHive = new BoolMatrixPrinter().print(beeHiveShape);
+        String printBoatShape = new BoolMatrixPrinter().print(boatShape);
+
+        System.out.print(printBeeHive);
+        System.out.print(printBoatShape);
     }
 }
