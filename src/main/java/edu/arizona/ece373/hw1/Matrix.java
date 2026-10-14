@@ -127,13 +127,13 @@ public class Matrix {
      */
     public int get(int row, int column) {
         // TODO: bounds-check the coordinate and return the cell.
-        if (row < 1 || row > this.getRows()) {
+        if (row < 0 || row > this.getRows()) {
             throw new IndexOutOfBoundsException("Row selected out of bounds");
         }
-        else if (column < 1 || column > this.getColumns()) {
+        else if (column < 0 || column > this.getColumns()) {
             throw new IndexOutOfBoundsException("Column selected out of bounds");
         }
-        return this.data[column][row];
+        return this.data[row][column];
     }
 
     /**
@@ -152,6 +152,6 @@ public class Matrix {
         else if (column < 1 || column > this.getColumns()) {
             throw new IndexOutOfBoundsException("Column selected out of bounds");
         }
-        this.data[column][row] = value;
+        this.data[row][column] = value;
     }
 }

@@ -52,7 +52,22 @@ public class GameOfLife extends Matrix {
     public void addShape(Shape shape, int row, int column) {
         // TODO: reject null, negative coordinates, and shapes that would stick out of the field;
         // TODO: then copy every cell of the shape onto the field.
-        throw new UnsupportedOperationException("TODO");
+        if (shape == null) {
+            throw new IllegalArgumentException("Shape is null");
+        }
+        if (row < 0 || shape.getRows() + row >= this.getRows()) {
+            throw new IllegalArgumentException("Input row is outside the game field");
+        }
+        if (column < 0 || shape.getColumns() + column >= this.getColumns()) {
+            throw new IllegalArgumentException("Input column is outside the game field");
+        }
+
+        for (int i = 0; i < shape.getRows(); i++) {
+            for (int j = 0; j < shape.getColumns(); j++) {
+                this.getData()[i+row][j+column] = shape.getData()[i][j];
+            }
+        }
+
     }
 
     /**
@@ -64,7 +79,48 @@ public class GameOfLife extends Matrix {
     public void step() {
         // TODO: allocate a local int[getRows()][getColumns()], fill it by applying the rules to
         // TODO: the current generation, then call setData(next).
-        throw new UnsupportedOperationException("TODO");
+
+        //Task:
+        /*
+        Cells outside the field always count as dead (the field does not wrap around).
+        a live cell with fewer than 2 live neighbours dies;
+        a live cell with 2 or 3 live neighbours survives;
+        a live cell with more than 3 live neighbours dies;
+        a dead cell with exactly 3 live neighbours becomes alive.
+         */
+
+        //Local int[][]
+        int[][] nextGen = new int[this.getRows()][this.getColumns()];
+        int NumOfLiveNeighbours;
+        for (int i = 0; i < this.getRows(); i++) {
+            for (int j = 0; j < this.getColumns(); j++) {
+                // Rules for LIVE cells
+                //System.out.print("Coordinate " + i + "," + j + " Status: " + this.get(i,j) + "\n");
+                if (this.get(i,j) == ALIVE) {
+                    NumOfLiveNeighbours = countLiveNeighbours(i,j);
+
+                    if (NumOfLiveNeighbours >= 2 && NumOfLiveNeighbours <= 3) {
+                        nextGen[i][j] = ALIVE;
+                    }
+                    else {
+                        nextGen[i][j] = DEAD;
+                    }
+                }
+                // Rules for DEAD cells
+                else {
+                    NumOfLiveNeighbours = countLiveNeighbours(i,j);
+                    if (NumOfLiveNeighbours == 3) {
+                        nextGen[i][j] = ALIVE;
+                    }
+                    else {
+                        nextGen[i][j] = DEAD;
+                    }
+
+                }
+            }
+        }
+
+        this.setData(nextGen);
     }
 
     /**
@@ -77,7 +133,26 @@ public class GameOfLife extends Matrix {
     public int countLiveNeighbours(int row, int column) {
         // TODO: look at the eight surrounding coordinates and count the live ones,
         // TODO: skipping coordinates that fall outside the field.
-        throw new UnsupportedOperationException("TODO");
+
+        int totalLive = 0;
+
+        for (int i = -1; i < 2; i++) {
+            if (i+row < 0 || i+row >= this.getRows()) {
+                continue;
+            }
+            for (int j = -1; j < 2; j++) {
+                if ((j+column < 0 || j+column >= this.getColumns()) || (j==0 && i==0)) {
+                    continue;
+                }
+                if (this.getData()[i+row][j+column] == ALIVE) {
+                    //System.out.print("Alive found at coordinate " + (row+i) + "," + (column+j) + "\n");
+                    totalLive += 1;
+                }
+            }
+        }
+        //if (totalLive > 0)
+            //System.out.print("Total Alive: " + totalLive + " at coord " + row+","+column+"\n");
+        return totalLive;
     }
 
     /**
@@ -91,6 +166,16 @@ public class GameOfLife extends Matrix {
         // TODO: create a game field, add at least a Blinker and a Glider, then run a fixed
         // TODO: number of generations - read it from args[0] if present, else use 20:
         // TODO:   print the field with a BoolMatrixPrinter, call step(), and Thread.sleep a little.
-        throw new UnsupportedOperationException("TODO");
+        GameOfLife newGame = new GameOfLife(12,12);
+
+        newGame.addShape(Shape.blinker(), 1,1);
+        newGame.addShape(Shape.glider(), 5,5);
+
+        for (int gen = 0; gen < 10; gen++) {
+            System.out.print(new BoolMatrixPrinter().print(newGame));
+            newGame.step();
+            Thread.sleep(1000);
+        }
+        System.out.print(new BoolMatrixPrinter().print(newGame));
     }
 }
